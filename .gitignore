@@ -112,3 +112,12 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+# Licensed Unity Asset Store packages, installed in Unity and on the build runner.
+/Assets/Cowsins/
+/Assets/Cowsins.meta
+/Assets/NatureManufacture Assets/
+/Assets/NatureManufacture Assets.meta
+/Assets/TextMesh Pro/
+/Assets/TextMesh Pro.meta
+/Assets/Scenes/Jeu_Ile.unity
+/Assets/Scenes/Jeu_Ile.unity.meta

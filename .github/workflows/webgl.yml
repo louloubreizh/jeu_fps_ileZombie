@@ -1,0 +1,41 @@
+name: WebGL
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency:
+  group: island-pages
+  cancel-in-progress: false
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, Windows, X64, unity-island]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+          clean: false
+          persist-credentials: false
+      - name: Build Unity WebGL
+        shell: powershell
+        run: ./Tools/Build-WebGL.ps1 -SeedVendorAssets
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: Builds/WebGL
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: pages
