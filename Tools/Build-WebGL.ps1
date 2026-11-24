@@ -42,7 +42,7 @@ $arguments = '-batchmode -nographics -quit -projectPath "{0}" -buildTarget WebGL
 $process = Start-Process -FilePath $unity -ArgumentList $arguments -WindowStyle Hidden -PassThru -Wait
 if ($process.ExitCode -ne 0) {
     if (Test-Path -LiteralPath $log) {
-        Select-String -LiteralPath $log -Pattern 'error CS\d+|BuildFailedException|Shader error|Failed running' | Select-Object -Last 25
+        Select-String -LiteralPath $log -Pattern 'error CS\d+|BuildFailedException|Shader error|Failed running|wasm-ld: error|emcc: error' | Select-Object -Last 25
     }
     throw "Unity exited with code $($process.ExitCode). See $log on the runner."
 }
