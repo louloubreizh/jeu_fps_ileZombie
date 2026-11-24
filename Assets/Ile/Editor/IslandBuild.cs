@@ -81,7 +81,7 @@ public sealed class IslandBuild : IProcessSceneWithReport, IFilterBuildAssemblie
         PrefabUtility.RecordPrefabInstancePropertyModifications(weaponController);
         var cameras = controller.GetComponentsInChildren<Camera>(true);
         var worldCamera = cameras.Single(camera => camera.CompareTag("MainCamera"));
-        var weaponCamera = cameras.Single(camera => camera.name.Contains("Weapon"));
+        var weaponCamera = cameras.Single(camera => camera != worldCamera);
         var worldCameraData = worldCamera.GetUniversalAdditionalCameraData();
         var weaponCameraData = weaponCamera.GetUniversalAdditionalCameraData();
         worldCameraData.renderType = CameraRenderType.Base;
