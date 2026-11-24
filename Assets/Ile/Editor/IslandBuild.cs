@@ -190,6 +190,7 @@ public sealed class IslandBuild : IProcessSceneWithReport, IFilterBuildAssemblie
         {
             scenes = new[] { ScenePath },
             target = BuildTarget.WebGL,
+            extraScriptingDefines = new[] { "APP_UI_EDITOR_ONLY" },
             locationPathName = output,
             options = BuildOptions.StrictMode
         });
