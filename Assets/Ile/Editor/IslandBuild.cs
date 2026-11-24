@@ -182,9 +182,9 @@ public sealed class IslandBuild : IProcessSceneWithReport
         ConfigureWebTextures();
         PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;
         PlayerSettings.WebGL.decompressionFallback = true;
-        var linkerArguments = PlayerSettings.WebGL.emscriptenArgs ?? string.Empty;
-        if (!linkerArguments.Split(' ').Contains("--bind"))
-            PlayerSettings.WebGL.emscriptenArgs = (linkerArguments + " --bind").Trim();
+        const string textMate = "Packages/com.unity.dt.app-ui/Runtime/Core/Platform/WebGL/Plugins/libAppUITextMateLib.a";
+        if (AssetImporter.GetAtPath(textMate) is PluginImporter editorTextHighlighter)
+            editorTextHighlighter.SetIncludeInBuildDelegate(_ => false);
         var output = Environment.GetEnvironmentVariable("ISLAND_WEBGL_OUTPUT") ?? "Builds/WebGL";
         var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
         {
