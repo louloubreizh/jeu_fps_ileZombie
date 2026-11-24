@@ -13,7 +13,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-public sealed class IslandBuild : IProcessSceneWithReport
+public sealed class IslandBuild : IProcessSceneWithReport, IFilterBuildAssemblies
 {
     public const string ScenePath = "Assets/Scenes/Jeu_Ile.unity";
     private const string Coast = "Assets/NatureManufacture Assets/Coast Environment/Demo Scene/Coast Demo.unity";
@@ -244,6 +244,13 @@ public sealed class IslandBuild : IProcessSceneWithReport
     }
 
     public int callbackOrder => 0;
+
+    public string[] OnFilterAssemblies(BuildOptions buildOptions, string[] assemblies)
+    {
+        if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
+            return assemblies;
+        return assemblies.Where(path => Path.GetFileName(path) != "Unity.AppUI.TextMateLib.dll").ToArray();
+    }
 
     public void OnProcessScene(Scene scene, BuildReport report)
     {
