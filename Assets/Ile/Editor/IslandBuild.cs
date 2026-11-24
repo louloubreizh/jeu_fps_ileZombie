@@ -79,6 +79,16 @@ public sealed class IslandBuild : IProcessSceneWithReport, IFilterBuildAssemblie
             throw new InvalidOperationException("The movement controller and pistol from FPS Engine are required.");
         weaponController.settings.initialWeapons = new[] { pistol };
         PrefabUtility.RecordPrefabInstancePropertyModifications(weaponController);
+        var cameras = controller.GetComponentsInChildren<Camera>(true);
+        var worldCamera = cameras.Single(camera => camera.CompareTag("MainCamera"));
+        var weaponCamera = cameras.Single(camera => camera.name.Contains("Weapon"));
+        var worldCameraData = worldCamera.GetUniversalAdditionalCameraData();
+        var weaponCameraData = weaponCamera.GetUniversalAdditionalCameraData();
+        worldCameraData.renderType = CameraRenderType.Base;
+        worldCameraData.renderPostProcessing = true;
+        weaponCameraData.renderType = CameraRenderType.Overlay;
+        if (!worldCameraData.cameraStack.Contains(weaponCamera))
+            worldCameraData.cameraStack.Add(weaponCamera);
         SceneManager.MoveGameObjectToScene(Root(movement, "EventSystem"), island);
 
         var obstacles = new GameObject("Parcours de mouvement").transform;
