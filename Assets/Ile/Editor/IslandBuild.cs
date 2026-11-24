@@ -96,7 +96,8 @@ public sealed class IslandBuild : IProcessSceneWithReport
         {
             var instance = (GameObject)PrefabUtility.InstantiatePrefab(target, shootingRange);
             Vector3 point = spawn + new Vector3(-10 - i * 3, 0, 12 + i * 5);
-            instance.transform.SetPositionAndRotation(OnTerrain(terrain, point) + Vector3.up, Quaternion.LookRotation(point - new Vector3(spawn.x, point.y, spawn.z)));
+            Vector3 facing = new Vector3(spawn.x - point.x, 0, spawn.z - point.z);
+            instance.transform.SetPositionAndRotation(OnTerrain(terrain, point) + Vector3.up, Quaternion.LookRotation(facing));
         }
         var objects = Root(showroom, "Environment").GetComponentsInChildren<Transform>();
         var props = objects.FirstOrDefault(item => item.name == "PropCubes");

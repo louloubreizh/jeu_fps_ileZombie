@@ -54,3 +54,4 @@ if ($bytes -gt 1000000000) {
     throw "The WebGL site exceeds the GitHub Pages limit ($bytes bytes)."
 }
 Write-Output "WebGL ready for GitHub Pages ($bytes bytes)."
+exit 0

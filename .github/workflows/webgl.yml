@@ -23,6 +23,12 @@ jobs:
       - name: Build Unity WebGL
         shell: powershell
         run: ./Tools/Build-WebGL.ps1 -SeedVendorAssets
+      - name: Locate Git Bash
+        shell: powershell
+        run: |
+          $gitBin = Join-Path (Split-Path (Split-Path (Get-Command git).Source)) bin
+          if (!(Test-Path "$gitBin/bash.exe")) { throw 'Git Bash is required to package the Pages artifact.' }
+          $gitBin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - uses: actions/upload-pages-artifact@v4
         with:
           path: Builds/WebGL
