@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using cowsins;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -72,6 +73,12 @@ public sealed class IslandBuild : IProcessSceneWithReport
         var controller = Root(movement, "MovementCowsinsFPSController");
         SceneManager.MoveGameObjectToScene(controller, island);
         controller.transform.SetPositionAndRotation(spawn + Vector3.up * 0.2f, Quaternion.identity);
+        var weaponController = controller.GetComponentInChildren<WeaponController>(true);
+        var pistol = AssetDatabase.LoadAssetAtPath<Weapon_SO>("Assets/Cowsins/ScriptableObjects/Weapons/Pistol.asset");
+        if (!weaponController || !pistol)
+            throw new InvalidOperationException("The movement controller and pistol from FPS Engine are required.");
+        weaponController.settings.initialWeapons = new[] { pistol };
+        PrefabUtility.RecordPrefabInstancePropertyModifications(weaponController);
         SceneManager.MoveGameObjectToScene(Root(movement, "EventSystem"), island);
 
         var obstacles = new GameObject("Parcours de mouvement").transform;
